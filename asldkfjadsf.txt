@@ -1,0 +1,15 @@
+MsUser 
+- id
+- name
+- email
+- password
+- created_at
+- 
+
+MsOrganization
+- id
+- name
+- location
+- industry
+- open_for_partnership (default: true)
+- 
