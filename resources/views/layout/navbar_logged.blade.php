@@ -2,7 +2,7 @@
     <div class="navbar-container">
         <!-- Logo -->
         <div class="logo">
-            <a href="{{ route('home') }}" class="logo-link">PartnerGO</a>
+            <a href="{{ route('user.home') }}" class="logo-link">PartnerGO</a>
         </div>
         
         <!-- Search Bar -->
@@ -19,7 +19,7 @@
         
         <!-- Navigation Links -->
         <div class="nav-links">
-            <a href="{{ route('home') }}" class="nav-link">Home</a>
+            <a href="{{ route('user.home') }}" class="nav-link">Home</a>
             <a href="{{ route('partners') }}" class="nav-link">Find Partners</a>
             <a href="{{ route('proposals') }}" class="nav-link">My Proposals</a>
         </div>
@@ -72,7 +72,7 @@
     <!-- Mobile menu, show/hide based on menu state -->
     <div class="mobile-menu" id="mobile-menu">
         <div class="mobile-links">
-            <a href="{{ route('home') }}" class="mobile-link">Home</a>
+            <a href="{{ route('user.home') }}" class="mobile-link">Home</a>
             <a href="{{ route('partners') }}" class="mobile-link">Find Partners</a>
             <a href="{{ route('proposals') }}" class="mobile-link">My Proposals</a>
             <div class="auth-mobile-buttons">

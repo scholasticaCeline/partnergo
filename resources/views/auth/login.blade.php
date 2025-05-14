@@ -8,26 +8,33 @@
     <title>PartnerGO</title>
 </head>
 <body>
-    <div class="wrapper">
-        <h1>Login</h1>
-        <div class="auth-container">
-            <div class="form-side">
-                <form method="POST" action="{{ route('register') }}">
+    <div class="auth-container">
+        <div class="form-side">
+            <div class="form-box">
+                <h2>Login</h2>
+
+                <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <input type="email" name="email" placeholder="Gmail" required>
+                    @error('email')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
+
                     <input type="password" name="password" placeholder="Password" required>
+                    @error('password')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
 
                     <label class="checkbox-container">
                         <input type="checkbox" name="remember">
                         <span>Agree to Our Terms & Conditions and Privacy Policy</span>
                     </label>
-                </form>
-            </div>
 
-            <div class="action-side">
-                <button type="submit" form="loginForm" class="primary-btn">Sign In</button>
+                    <button type="submit" class="primary-btn">Sign Up</button>
+                </form>
+
                 <p class="switch-link">
-                    Don't have an account?
+                    Already have an account?
                     <a href="{{ route('register') }}">Sign up</a>
                 </p>
 
@@ -37,8 +44,8 @@
                     <span></span>
                 </div>
 
-                <button class="social-btn facebook">Sign in with Facebook</button>
-                <button class="social-btn google">Sign in with Google</button>
+                <button class="social-btn facebook">Sign up with Facebook</button>
+                <button class="social-btn google">Sign up with Google</button>
             </div>
         </div>
     </div>

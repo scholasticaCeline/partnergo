@@ -9,38 +9,67 @@
 </head>
 <body>
     <div class="wrapper">
-        <h1>Sign Up</h1>
         <div class="auth-container">
             <div class="form-side">
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-                    <input type="text" name="name" placeholder="Name" required>
-                    <input type="email" name="email" placeholder="Gmail" required>
-                    <input type="number" name="phone" placeholder="Phone Number" required>
-                    <input type="password" name="password" placeholder="Password" required>
+                <div class="form-box">
+                    <h2>Create Account</h2>
 
-                    <label class="checkbox-container">
-                        <input type="checkbox" name="remember">
-                        <span>Agree to Our Terms & Conditions and Privacy Policy</span>
-                    </label>
-                </form>
-            </div>
+                    <form method="POST" action="{{ route('register') }}">
+                        @csrf
+                        
+                        <!-- Name Field -->
+                        <input type="text" name="name" placeholder="Name" required value="{{ old('name') }}">
+                        @error('name')
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
 
-            <div class="action-side">
-                <button type="submit" form="loginForm" class="primary-btn">Sign In</button>
-                <p class="switch-link">
-                    Already have an account?
-                    <a href="{{ route('login') }}">Sign up</a>
-                </p>
+                        <!-- Email Field -->
+                        <input type="email" name="email" placeholder="Gmail" required value="{{ old('email') }}">
+                        @error('email')
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
 
-                <div class="or-divider">
-                    <span></span>
-                    <p>Or with</p>
-                    <span></span>
+                        <!-- Phone Field -->
+                        <input type="number" name="phoneNumber" placeholder="Phone Number" required value="{{ old('phoneNumber') }}">
+                        @error('phoneNumber')
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
+
+                        <!-- Password Field -->
+                        <input type="password" name="password" placeholder="Password" required>
+                        @error('password')
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
+
+                        <!-- Confirm Password Field -->
+                        <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
+                        @error('password_confirmation')
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
+
+                        <!-- Terms & Conditions Checkbox -->
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="remember">
+                            <span>Agree to Our Terms & Conditions and Privacy Policy</span>
+                        </label>
+
+                        <button type="submit" class="primary-btn">Sign Up</button>
+                    </form>
+
+                    <p class="switch-link">
+                        Already have an account?
+                        <a href="{{ route('login') }}">Sign in</a>
+                    </p>
+
+                    <div class="or-divider">
+                        <span></span>
+                        <p>Or with</p>
+                        <span></span>
+                    </div>
+
+                    <button class="social-btn facebook">Sign up with Facebook</button>
+                    <button class="social-btn google">Sign up with Google</button>
                 </div>
-
-                <button class="social-btn facebook">Sign up with Facebook</button>
-                <button class="social-btn google">Sign up with Google</button>
             </div>
         </div>
     </div>
