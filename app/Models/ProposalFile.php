@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProposalFile extends Model
 {
+    use HasFactory;
     protected $primaryKey = 'ProposalFileID';
     public $incrementing = false;
     protected $keyType = 'string';

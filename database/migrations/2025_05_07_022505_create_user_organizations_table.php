@@ -15,7 +15,8 @@ return new class extends Migration
             $table->uuid('UserOrganizationID')->primary();
             $table->uuid('UserID');
             $table->uuid('OrganizationID');
-            $table->integer('IsAdmin');
+            $table->integer('IsAdmin')->default(0);
+            $table->timestamps();
 
             $table->foreign('UserID')->references('UserID')->on('users');
             $table->foreign('OrganizationID')->references('OrganizationID')->on('organizations');

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('CreatedAt');
             $table->date('StartDate')->nullable();
             $table->date('EndDate')->nullable();
+            $table->timestamps();
         
             $table->foreign('OrganizationSenderID')->references('OrganizationID')->on('organizations')->onDelete('cascade');
             $table->foreign('OrganizationTargetID')->references('OrganizationID')->on('organizations')->onDelete('cascade');

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('industry_types', function (Blueprint $table) {
             $table->uuid('IndustryTypeID')->primary();
-            $table->integer('IndustryType');
+            $table->string('IndustryType');
+            $table->timestamps();
         });
     }
 

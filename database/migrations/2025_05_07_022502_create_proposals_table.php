@@ -17,8 +17,9 @@ return new class extends Migration
             $table->uuid('OrganizationID');
             $table->string('ProposalTitle', 255);
             $table->string('ProposalStatus', 10);
-            $table->date('StartDate');
-            $table->date('EndDate');
+            $table->date('StartDate')->nullable();
+            $table->date('EndDate')->nullable();
+            $table->timestamps();
         
             $table->foreign('UserID')->references('UserID')->on('users')->onDelete('cascade');
             $table->foreign('OrganizationID')->references('OrganizationID')->on('organizations')->onDelete('cascade');

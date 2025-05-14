@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('OrganizationIndustryID')->primary();
             $table->uuid('OrganizationID');
             $table->uuid('IndustryTypeID');
+            $table->timestamps();
 
             $table->foreign('OrganizationID')->references('OrganizationID')->on('organizations');
             $table->foreign('IndustryTypeID')->references('IndustryTypeID')->on('industry_types');

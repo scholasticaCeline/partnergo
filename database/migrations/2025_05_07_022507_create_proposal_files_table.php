@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('proposal_files', function (Blueprint $table) {
             $table->uuid('ProposalFileID')->primary();
-            $table->string('UploadedBy', 5);
+            $table->uuid('UploadedBy');
             $table->uuid('ProposalID');
             $table->string('Filename', 255);
             $table->string('Filepath', 255);
             $table->date('CreatedAt');
+            $table->timestamps();
 
             $table->foreign('UploadedBy')->references('UserID')->on('users');
             $table->foreign('ProposalID')->references('ProposalID')->on('proposals');

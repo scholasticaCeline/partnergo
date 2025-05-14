@@ -97,12 +97,12 @@ body {
   .hero-image {
     flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
 
     .image-container {
       width: 100%;
-      max-width: 500px;
+      max-width: 50rem;
       height: auto;
     }
 

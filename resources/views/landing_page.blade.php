@@ -43,7 +43,7 @@
                 </div>
                 <div class="hero-image">
                     <div class="image-container">
-                        <img src={{ asset('assets/') }} alt="Hero Image" class="hero-image">
+                        <img src={{ asset('assets/heroimg.png') }} alt="Hero Image" class="hero-image">
                     </div>
                 </div>
             </div>

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('TargetType', 20);
             $table->uuid('TargetID');
             $table->string('Content', 255);
+            $table->timestamps();
         });
     }
 

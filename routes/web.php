@@ -15,5 +15,10 @@ Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
 Route::get('/partners', [SearchPartnerController::class, 'index'])->name('partners');
 Route::get('/proposals', [ProposalController::class, 'index'])->name('proposals');
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+// Display forms
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login.form');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('signup.form');
+
+// Handle form submissions (to be implemented in controller later)
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');

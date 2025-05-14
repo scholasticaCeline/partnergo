@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('Description')->nullable();
             $table->string('OrganizationType', 255);
             $table->boolean('OpenForPartnership');
+            $table->timestamps();
         });
     }
 

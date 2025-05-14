@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->uuid('LocationID')->primary();
             $table->string('LocationName', 255);
+            $table->timestamps();
         });
     }
 

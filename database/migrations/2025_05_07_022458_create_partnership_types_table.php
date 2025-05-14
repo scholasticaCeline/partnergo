@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('partnership_types', function (Blueprint $table) {
             $table->uuid('PartnershipTypeID')->primary();
             $table->string('PartnershipTypeName', 255);
+            $table->timestamps();
         });
     }
 

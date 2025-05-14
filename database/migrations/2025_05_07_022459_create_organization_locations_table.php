@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('OrganizationLocationID')->primary();
             $table->uuid('OrganizationID');
             $table->uuid('LocationID');
+            $table->timestamps();
 
             $table->foreign('OrganizationID')->references('OrganizationID')->on('organizations');
             $table->foreign('LocationID')->references('LocationID')->on('locations');
