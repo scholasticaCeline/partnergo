@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('proposal_files', function (Blueprint $table) {
-            $table->string('ProposalFileID', 5)->primary();
+            $table->uuid('ProposalFileID')->primary();
             $table->string('UploadedBy', 5);
-            $table->string('ProposalID', 5);
+            $table->uuid('ProposalID');
             $table->string('Filename', 255);
             $table->string('Filepath', 255);
             $table->date('CreatedAt');

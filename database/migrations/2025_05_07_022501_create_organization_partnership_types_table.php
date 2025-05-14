@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('organization_partnership_types', function (Blueprint $table) {
-            $table->string('OrganizationPartnershipTypeID', 5)->primary();
-            $table->string('OrganizationID', 5);
-            $table->string('PartnershipTypeID', 5);
+            $table->uuid('OrganizationPartnershipTypeID')->primary();
+            $table->uuid('OrganizationID');
+            $table->uuid('PartnershipTypeID');
 
             $table->foreign('OrganizationID')->references('OrganizationID')->on('organizations');
             $table->foreign('PartnershipTypeID')->references('PartnershipTypeID')->on('partnership_types');

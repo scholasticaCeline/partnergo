@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('messages', function (Blueprint $table) {
-            $table->string('MessageID', 5)->primary();
-            $table->string('SenderID', 5);
-            $table->string('ReceiverID', 5);
+            $table->uuid('MessageID')->primary();
+            $table->uuid('SenderID');
+            $table->uuid('ReceiverID');
             $table->string('Content', 1000);
             $table->date('CreatedAt');
             $table->date('ReadAt')->nullable();

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('partnership_types', function (Blueprint $table) {
-            $table->string('PartnershipTypeID', 5)->primary();
+            $table->uuid('PartnershipTypeID')->primary();
             $table->string('PartnershipTypeName', 255);
         });
     }

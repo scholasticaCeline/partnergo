@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_organizations', function (Blueprint $table) {
-            $table->string('UserOrganizationID', 5)->primary();
-            $table->string('UserID', 5);
-            $table->string('OrganizationID', 5);
+            $table->uuid('UserOrganizationID')->primary();
+            $table->uuid('UserID');
+            $table->uuid('OrganizationID');
             $table->integer('IsAdmin');
 
             $table->foreign('UserID')->references('UserID')->on('users');

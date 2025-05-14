@@ -12,21 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('partnerships', function (Blueprint $table) {
-            $table->string('PartnershipID', 5)->primary();
-            $table->string('OrganizationSenderID', 5);
-            $table->string('OrganizationTargetID', 5);
-            $table->string('PartnershipTypeID', 5);
-            $table->string('ProposalID', 5);
+            $table->uuid('PartnershipID')->primary();
+            $table->uuid('OrganizationSenderID');
+            $table->uuid('OrganizationTargetID');
+            $table->uuid('PartnershipTypeID');
+            $table->uuid('ProposalID');
             $table->string('Status', 255);
             $table->date('CreatedAt');
             $table->date('StartDate')->nullable();
             $table->date('EndDate')->nullable();
-
-            $table->foreign('OrganizationSenderID')->references('OrganizationID')->on('organizations');
-            $table->foreign('OrganizationTargetID')->references('OrganizationID')->on('organizations');
-            $table->foreign('PartnershipTypeID')->references('PartnershipTypeID')->on('partnership_types');
-            $table->foreign('ProposalID')->references('ProposalID')->on('proposals');
-        });
+        
+            $table->foreign('OrganizationSenderID')->references('OrganizationID')->on('organizations')->onDelete('cascade');
+            $table->foreign('OrganizationTargetID')->references('OrganizationID')->on('organizations')->onDelete('cascade');
+            $table->foreign('PartnershipTypeID')->references('PartnershipTypeID')->on('partnership_types')->onDelete('cascade');
+            $table->foreign('ProposalID')->references('ProposalID')->on('proposals')->onDelete('cascade');
+        });        
     }
 
     /**

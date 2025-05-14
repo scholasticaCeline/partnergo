@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('industry_types', function (Blueprint $table) {
-            $table->string('IndustryTypeID', 5)->primary();
+            $table->uuid('IndustryTypeID')->primary();
             $table->integer('IndustryType');
         });
     }

@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('proposals', function (Blueprint $table) {
-            $table->string('ProposalID', 5)->primary();
-            $table->string('UserID', 5);
-            $table->string('OrganizationID', 5);
+            $table->uuid('ProposalID')->primary();
+            $table->uuid('UserID');
+            $table->uuid('OrganizationID');
             $table->string('ProposalTitle', 255);
             $table->string('ProposalStatus', 10);
             $table->date('StartDate');
             $table->date('EndDate');
-
-            $table->foreign('UserID')->references('UserID')->on('users');
-            $table->foreign('OrganizationID')->references('OrganizationID')->on('organizations');
+        
+            $table->foreign('UserID')->references('UserID')->on('users')->onDelete('cascade');
+            $table->foreign('OrganizationID')->references('OrganizationID')->on('organizations')->onDelete('cascade');
         });
     }
 
