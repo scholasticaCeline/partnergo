@@ -9,18 +9,39 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Organization extends Model
 {
     use HasFactory;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'organizations';
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
     protected $primaryKey = 'OrganizationID';
     public $incrementing = false;
     protected $keyType = 'string';
+    protected $fillable = [
+        'OrganizationID',
+        'Name',
+        'Description',
+        'OrganizationType',
+        'OpenForPartnership',
+    ];
 
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_organizations', 'OrganizationID', 'UserID')
-                    ->withPivot('UserOrganizationID', 'IsAdmin');
+                ->withPivot('IsAdmin')
+                ->using(UserOrganization::class);
     }
 
     public function senderPartnerships()
-    {
+    {   
         return $this->hasMany(Partnership::class, 'OrganizationSenderID');
     }
 
@@ -29,22 +50,22 @@ class Organization extends Model
         return $this->hasMany(Partnership::class, 'OrganizationTargetID');
     }
 
-    public function partnershipTypes()
-    {
-        return $this->belongsToMany(PartnershipType::class, 'organization_partnership_types', 'OrganizationID', 'PartnershipTypeID')
-                    ->withPivot('OrganizationPartnershipTypeID');
-    }
-
     public function industries()
     {
         return $this->belongsToMany(IndustryType::class, 'organization_industry_types', 'OrganizationID', 'IndustryTypeID')
-                    ->withPivot('OrganizationIndustryID');
+                    ->using(OrganizationIndustryType::class); // <-- Add this
+    }
+
+    public function partnershipTypes()
+    {
+        return $this->belongsToMany(PartnershipType::class, 'organization_partnership_types', 'OrganizationID', 'PartnershipTypeID')
+                    ->using(OrganizationPartnershipType::class); // <-- Add this
     }
 
     public function locations()
     {
         return $this->belongsToMany(Location::class, 'organization_locations', 'OrganizationID', 'LocationID')
-                    ->withPivot('OrganizationLocationID');
+                    ->using(OrganizationLocation::class); 
     }
 
     public function userOrganizations()

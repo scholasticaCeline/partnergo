@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class PartnershipType extends Model
 {
     use HasFactory;
-    use HasFactory;
+
+    protected $table = 'partnership_types';
 
     protected $primaryKey = 'PartnershipTypeID';
     public $incrementing = false;

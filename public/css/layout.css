@@ -1,11 +1,23 @@
 html, body {
     background-color: #fff;
+    height: 100%;
+    margin: 0;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
 }
 
 body{
@@ -38,7 +50,7 @@ body{
             }
         }
 
-    .search-bar {
+    .search-bar-nav {
         flex: 1;
         max-width: 400px;
         margin: 0 20px;
@@ -47,11 +59,11 @@ body{
             font-family: 'Jost', sans-serif;
         }
         
-        .search-wrapper {
+        .search-wrapper-nav {
             position: relative;
             width: 100%;
             
-            .search-input {
+            .search-input-nav {
                 width: 100%;
                 padding: 10px 15px 10px 40px;
                 border: 1px solid #B3B3B3;
@@ -65,14 +77,14 @@ body{
                 }
             }
             
-            .search-icon {
+            .search-icon-nav {
                 position: absolute;
                 left: 15px;
                 top: 55%;
                 transform: translateY(-50%);
                 color: #999;
                 
-                .search-svg {
+                .search-svg-nav {
                     width: 18px;
                     height: 18px;
                 }
@@ -109,6 +121,59 @@ body{
         display: flex;
         align-items: center;
         gap: 30px;
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+
+            .profile-button {
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+                
+                .profile-pic {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: block;
+                }
+            }
+
+            .dropdown-menu {
+                display: none;
+                position: absolute;
+                right: 0;
+                background-color: #fff;
+                min-width: 200px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                padding: 0.5rem 0;
+                z-index: 50;
+
+                a,
+                form button {
+                    font-size: 18px;
+                    display: block;
+                    width: 100%;
+                    text-align: left;
+                    padding: 8px 16px;
+                    border: none;
+                    background: none;
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: #333;
+
+                    &:hover {
+                        background-color: #f0f0f0;
+                    }
+                }
+            }
+
+            .dropdown-menu.visible {
+                display: block;
+            }
+        }
     }
 
     .icon {
@@ -267,7 +332,7 @@ body{
                 padding: 0 15px;
             }
             
-            .search-bar {
+            .search-bar-nav {
                 max-width: 60%;
             }
         }
@@ -283,7 +348,7 @@ body{
                 flex: 1;
             }
             
-            .search-bar {
+            .search-bar-nav {
                 order: 3;
                 max-width: 100%;
                 margin: 15px 0 0 0;
@@ -298,7 +363,7 @@ body{
 
     @media (max-width: 768px) {
         .navbar {
-            .search-bar {
+            .search-bar-nav {
             max-width: 100% !important; 
             margin: 10px 0;
             }
@@ -312,7 +377,7 @@ body{
                 align-items: stretch;
             }
 
-            .search-bar {
+            .search-bar-nav {
                 order: 3;
                 width: 100%;
                 margin: 15px 0 0 0;

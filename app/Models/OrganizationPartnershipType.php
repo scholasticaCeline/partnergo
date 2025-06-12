@@ -2,17 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Str;
 
-class OrganizationPartnershipType extends Model
+class OrganizationPartnershipType extends Pivot
 {
-    use HasFactory;
-
+    protected $table = 'organization_partnership_types'; 
     protected $primaryKey = 'OrganizationPartnershipTypeID';
     public $incrementing = false;
     protected $keyType = 'string';
 
-    public $timestamps = false;
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = Str::uuid();
+            }
+        });
+    }
 }
-

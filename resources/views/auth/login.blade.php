@@ -13,7 +13,7 @@
             <div class="form-box">
                 <h2>Login</h2>
 
-                <form method="POST" action="{{ route('login') }}">
+                <form method="POST" action="{{ route('login_logic') }}">
                     @csrf
                     <input type="email" name="email" placeholder="Gmail" required>
                     @error('email')
@@ -24,13 +24,8 @@
                     @error('password')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
-
-                    <label class="checkbox-container">
-                        <input type="checkbox" name="remember">
-                        <span>Agree to Our Terms & Conditions and Privacy Policy</span>
-                    </label>
-
-                    <button type="submit" class="primary-btn">Sign Up</button>
+                    
+                    <button type="submit" class="primary-btn">Login</button>
                 </form>
 
                 <p class="switch-link">

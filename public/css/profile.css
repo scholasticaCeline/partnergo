@@ -1,0 +1,220 @@
+/* 1. General Styles & Variables */
+:root {
+    --primary-color: #f8971d;
+    --primary-light: #fff7ed;
+    --border-color: #e2e8f0;
+    --text-dark: #1e3a8a;
+    --text-light: #475569;
+    --body-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --font-family: 'Jost', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--body-bg);
+    color: var(--text-dark);
+    /* min-height: 100vh; */
+}
+
+.profile-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+    min-height: 90vh;
+}
+
+/* 2. Profile Header */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.profile-logo {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    background-color: var(--primary-light);
+}
+
+.profile-header-info h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem 0;
+    color: var(--text-dark);
+}
+
+.profile-header-info .subtitle {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin: 0;
+}
+
+.profile-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 1rem;
+}
+
+.button {
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.button-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+.button-primary:hover {
+    background-color: #ea580c;
+}
+
+.button-secondary {
+    background-color: var(--card-bg);
+    color: var(--text-light);
+    border-color: var(--border-color);
+}
+.button-secondary:hover {
+    border-color: #d1d5db;
+    color: var(--text-dark);
+}
+
+/* 3. Profile Body Layout */
+.profile-body {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.profile-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profile-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* 4. Reusable Info Card */
+.info-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+}
+
+.info-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-card p {
+    color: var(--text-light);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: var(--text-light);
+}
+.info-list li {
+    padding: 0.5rem 0;
+}
+
+/* 5. Tags & Contact List */
+.tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+}
+
+.tag-industry {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.tag-partnership {
+    background-color: #ffedd5;
+    color: #c2410c;
+}
+
+.contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contact-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+.contact-list li:last-child {
+    border-bottom: none;
+}
+.contact-list strong {
+    color: var(--text-dark);
+    font-weight: 500;
+}
+.contact-list span {
+    color: var(--text-light);
+}
+.contact-list a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+.contact-list a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-body {
+        grid-template-columns: 1fr;
+    }
+    .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .profile-actions {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+}

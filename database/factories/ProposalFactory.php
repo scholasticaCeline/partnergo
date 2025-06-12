@@ -12,14 +12,22 @@ use App\Models\Organization;
  */
 class ProposalFactory extends Factory
 {
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
+        $statuses = ['submitted', 'accepted', 'rejected', 'pending'];
+
         return [
-            'ProposalID' => (string) Str::uuid(), // <-- add this
-            'OrganizationID' => Organization::inRandomOrder()->first()->OrganizationID ?? (string) Str::uuid(),
-            'ProposalTitle' => $this->faker->company,
-            'ProposalStatus' => $this->faker->randomElement(['pending', 'rejected', 'accepted']),
-            'UserID' => User::inRandomOrder()->first()->UserID ?? (string) Str::uuid(),
+            'ProposalID'      => Str::uuid(),
+            'ProposalTitle'   => $this->faker->bs() . ' Initiative',
+            'Description'     => $this->faker->paragraph(4),
+            'ProposalStatus'  => $this->faker->randomElement($statuses),
+            'StartDate'       => null,
+            'EndDate'         => null,
         ];
     }
 }

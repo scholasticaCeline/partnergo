@@ -2,27 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Str;
 
-class OrganizationIndustryType extends Model
+class OrganizationIndustryType extends Pivot
 {
-    use HasFactory;
-    protected $primaryKey = 'IndustryTypeID';
+    protected $table = 'organization_industry_types';
+    protected $primaryKey = 'OrganizationIndustryID';
     public $incrementing = false;
     protected $keyType = 'string';
 
-    public $timestamps = false;
-
-    public function organization()
+    protected static function booted()
     {
-        return $this->belongsTo(Organization::class, 'OrganizationID', 'OrganizationID');
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = Str::uuid();
+            }
+        });
     }
-
-    public function industryType()
-    {
-        return $this->belongsTo(IndustryType::class, 'IndustryTypeID', 'IndustryTypeID');
-    }
-
 }
-

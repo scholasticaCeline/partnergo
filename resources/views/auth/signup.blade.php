@@ -14,7 +14,7 @@
                 <div class="form-box">
                     <h2>Create Account</h2>
 
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register_logic') }}">
                         @csrf
                         
                         <!-- Name Field -->
@@ -58,7 +58,7 @@
 
                     <p class="switch-link">
                         Already have an account?
-                        <a href="{{ route('login') }}">Sign in</a>
+                            <a href="{{ route('login') }}">Sign in</a>
                     </p>
 
                     <div class="or-divider">

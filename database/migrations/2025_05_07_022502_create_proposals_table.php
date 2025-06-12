@@ -13,16 +13,26 @@ return new class extends Migration
     {
         Schema::create('proposals', function (Blueprint $table) {
             $table->uuid('ProposalID')->primary();
-            $table->uuid('UserID');
-            $table->uuid('OrganizationID');
-            $table->string('ProposalTitle', 255);
-            $table->string('ProposalStatus', 10);
+
+            $table->foreignUuid('UserID')
+                ->constrained(table: 'users', column: 'UserID') 
+                ->cascadeOnDelete();
+
+            $table->foreignUuid('OrganizationID')
+                ->constrained(table: 'organizations', column: 'OrganizationID')
+                ->cascadeOnDelete();
+
+            $table->foreignUuid('ProposingOrganizationID')
+                ->nullable()
+                ->constrained(table: 'organizations', column: 'OrganizationID')
+                ->nullOnDelete();
+
+            $table->string('ProposalTitle');
+            $table->text('Description'); 
+            $table->string('ProposalStatus')->default('submitted');
             $table->date('StartDate')->nullable();
             $table->date('EndDate')->nullable();
             $table->timestamps();
-        
-            $table->foreign('UserID')->references('UserID')->on('users')->onDelete('cascade');
-            $table->foreign('OrganizationID')->references('OrganizationID')->on('organizations')->onDelete('cascade');
         });
     }
 

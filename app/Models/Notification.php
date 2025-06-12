@@ -13,5 +13,10 @@ class Notification extends Model
     protected $keyType = 'string';
 
     public $timestamps = false;
+
+    public function scopeUnread(Builder $query): Builder
+    {
+        return $query->whereNull('read_at');
+    }
 }
 

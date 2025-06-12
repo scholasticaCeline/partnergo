@@ -1,0 +1,153 @@
+:root {
+        --primary-color: #f8971d;
+        --primary-light: #fff7ed;
+        --border-color: #e2e8f0;
+        --text-dark: #1e3a8a;
+        --text-light: #475569;
+        --body-bg: #f8fafc;
+        --card-bg: #ffffff;
+        --font-family: 'Jost', sans-serif;
+
+        /* Added status colors that complement your palette */
+        --success-color: #16a34a; /* A nice green for 'accepted' */
+        --danger-color: #dc2626;  /* A standard red for 'rejected' */
+    }
+
+    /* Basic Page Styles using your variables */
+    body {
+        font-family: var(--font-family);
+        background-color: var(--body-bg);
+        color: var(--text-light); /* Default text color is the lighter one */
+        line-height: 1.6;
+    }
+
+    /* Main Layout Container using Flexbox */
+    .proposal-page-container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 20px;
+        display: flex;
+        gap: 30px; /* Space between main content and sidebar */
+    }
+
+    .main-content {
+        flex: 3;
+    }
+
+    .sidebar {
+        flex: 2;
+    }
+
+    /* Card-like Styling using your variables */
+    .content-box {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        padding: 25px;
+    }
+
+    .sidebar .content-box .header {
+        /* Using a light gray for a neutral header background */
+        background-color: #f8fafc;
+        margin: -25px -25px 20px -25px;
+        padding: 15px 25px;
+        border-bottom: 1px solid var(--border-color);
+        border-radius: 8px 8px 0 0;
+    }
+
+    /* Typography using your variables */
+    h1, h5 {
+        color: var(--text-dark); /* Headings use the main dark blue text color */
+    }
+    h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+    }
+    h5 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    p {
+        margin: 0 0 1rem 0;
+        color: var(--text-light);
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid var(--border-color);
+        margin: 2rem 0;
+    }
+
+    /* Status Badge using your variables */
+    .status-badge {
+        display: inline-block;
+        padding: 0.5em 0.8em;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border-radius: 20px;
+        color: #fff;
+    }
+    .status-submitted { background-color: var(--primary-color); }
+    .status-accepted { background-color: var(--success-color); }
+    .status-rejected { background-color: var(--danger-color); }
+    .status-default { background-color: var(--text-light); }
+
+    /* File List using your variables */
+    .file-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .file-list-item {
+        background-color: var(--primary-light);
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .file-list-item span {
+        color: var(--text-dark);
+        font-weight: 500;
+    }
+    .file-list-item a {
+        text-decoration: none;
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+    .file-list-item a:hover {
+        text-decoration: underline;
+    }
+
+    /* Details List in Sidebar using your variables */
+    .details-list {
+        list-style: none;
+        padding: 0;
+    }
+    .details-list li {
+        margin-bottom: 1.5rem;
+    }
+    .details-list strong {
+        display: block;
+        color: var(--text-light);
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+    .details-list span {
+        font-size: 1rem;
+        color: var(--text-dark); /* Details text is the darker color */
+        font-weight: 500;
+    }
+
+    /* Responsive layout for smaller screens */
+    @media (max-width: 900px) {
+        .proposal-page-container {
+            flex-direction: column;
+        }
+    }

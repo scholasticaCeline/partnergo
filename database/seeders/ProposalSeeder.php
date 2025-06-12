@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Proposal;
 use App\Models\User;
 use App\Models\Organization;
+use App\Models\Proposal;
+use App\Models\PartnershipType;
 
 class ProposalSeeder extends Seeder
 {
@@ -16,17 +16,27 @@ class ProposalSeeder extends Seeder
     public function run(): void
     {
         $users = User::all();
-        $orgs = Organization::all();
+        $organizations = Organization::all();
+        $partnershipTypes = PartnershipType::all();
+
+        if ($users->isEmpty() || $organizations->isEmpty() || $partnershipTypes->isEmpty()) {
+            $this->command->info('Cannot run ProposalSeeder because a required table is empty.');
+            return;
+        }
 
         foreach ($users as $user) {
             $proposalCount = rand(1, 3);
 
             for ($i = 0; $i < $proposalCount; $i++) {
-                $org = $orgs->random();
+                $org = $organizations->random();
+                $partnershipType = $partnershipTypes->random();
 
                 Proposal::factory()->create([
+                    // THIS IS THE FINAL FIX: Using the correct primary key from your User model
                     'UserID' => $user->UserID,
+
                     'OrganizationID' => $org->OrganizationID,
+                    'PartnershipTypeID' => $partnershipType->PartnershipTypeID,
                 ]);
             }
         }

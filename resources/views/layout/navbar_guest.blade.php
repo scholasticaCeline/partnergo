@@ -6,14 +6,14 @@
         </div>
         
         <!-- Search Bar -->
-        <div class="search-bar">
-            <div class="search-wrapper">
-                <div class="search-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="search-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="search-bar-nav">
+            <div class="search-wrapper-nav">
+                <div class="search-icon-nav">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="search-svg-nav" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
-                <input type="text" name="search" id="search" class="search-input" placeholder="Search">
+                <input type="text" name="search" id="search" class="search-input-nav" placeholder="Search">
             </div>
         </div>
         

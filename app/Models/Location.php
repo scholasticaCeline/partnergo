@@ -14,9 +14,10 @@ class Location extends Model
 
     public $timestamps = false;
 
-    public function organizationLocations()
+    public function organizations()
     {
-        return $this->hasMany(OrganizationLocation::class, 'LocationID', 'LocationID');
+        return $this->belongsToMany(Organization::class, 'organization_locations', 'OrganizationID', 'LocationID')
+                    ->using(OrganizationLocation::class); // <-- ADD OR VERIFY THIS LINE
     }
 
 }

@@ -6,14 +6,14 @@
         </div>
         
         <!-- Search Bar -->
-        <div class="search-bar">
-            <div class="search-wrapper">
-                <div class="search-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="search-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="search-bar-nav">
+            <div class="search-wrapper-nav">
+                <div class="search-icon-nav">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="search-svg-nav" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
-                <input type="text" name="search" id="search" class="search-input" placeholder="Search">
+                <input type="text" name="search" id="search" class="search-input-nav" placeholder="Search">
             </div>
         </div>
         
@@ -32,33 +32,21 @@
             <button class="notif-button" title="Notifications">
                 <img src="{{ asset('assets/notif.png') }}" alt="Notifications" class="icon">
             </button>
-            <img src="{{ asset('assets/profile.png') }}" alt="Profile" class="profile-pic" title="Profile">
+
+            <div class="dropdown" id="profileDropdown">
+                <button class="profile-button" id="dropdownToggle" aria-haspopup="true" aria-expanded="false" aria-controls="dropdownMenu">
+                    <img src="{{ asset('assets/profile.png') }}" alt="Profile" class="profile-pic" />
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu" role="menu" aria-labelledby="dropdownToggle">
+                    <a href="#" role="menuitem">Settings</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" role="menuitem">Logout</button>
+                    </form>
+                </div>
+            </div>
         </div>
-
-
-        <!-- Notification, Message, Profile Picture -->
-        {{-- @auth --}}
-        {{-- <div class="user-section">
-            <a href="{{ route('notifications') }}" class="notif-button" title="Notifications">
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 17h5l-1.405-1.405C18.21 14.79 18 14.29 18 13.764V11a6 6 0 00-12 0v2.764c0 .526-.21 1.026-.595 1.831L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                </svg>
-            </a>
-            <a href="{{ route('messages') }}" class="message-button" title="Messages">
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.964 9.964 0 01-4.13-.876L3 21l1.49-3.986A8.963 8.963 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-            </a>
-            <a href="{{ route('profile') }}" class="profile-link">
-                <img src="{{ Auth::user()->profile_picture_url ?? '/images/default-profile.jpg' }}"
-                    alt="Profile" class="profile-pic" title="Profile">
-            </a>
-        </div> --}}
-        {{-- @endauth --}}
         
-        <!-- Mobile menu button -->
         <div class="mobile-menu-button">
             <button type="button" aria-controls="mobile-menu" aria-expanded="false" class="menu-button">
                 <span class="sr-only">Open main menu</span>
@@ -97,5 +85,26 @@
             menuButton.setAttribute('aria-expanded', !expanded);
             mobileMenu.classList.toggle('hidden');
         });
-    });
+
+        const toggle = document.getElementById('dropdownToggle');
+        const menu = document.getElementById('dropdownMenu');
+
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const isVisible = menu.classList.contains('visible');
+            if (isVisible) {
+            menu.classList.remove('visible');
+            toggle.setAttribute('aria-expanded', 'false');
+            } else {
+            menu.classList.add('visible');
+            toggle.setAttribute('aria-expanded', 'true');
+            }
+        });
+
+        // Close dropdown on outside click
+        document.addEventListener('click', function () {
+            menu.classList.remove('visible');
+            toggle.setAttribute('aria-expanded', 'false');
+        });
+    });    
 </script>

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class IndustryType extends Model
 {
     use HasFactory;
+
+    protected $table = 'industry_types'; 
     
     protected $primaryKey = 'IndustryTypeID';
     public $incrementing = false;
@@ -18,6 +20,12 @@ class IndustryType extends Model
     public function organizationIndustryTypes()
     {
         return $this->hasMany(OrganizationIndustryType::class, 'IndustryTypeID', 'IndustryTypeID');
+    }
+    
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'organization_industry_types', 'OrganizationID', 'IndustryTypeID')
+                    ->using(OrganizationIndustry::class); // <-- Add this
     }
 
 }

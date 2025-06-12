@@ -2,15 +2,53 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Str;
 
-class OrganizationLocation extends Model
+/**
+ * This class MUST extend Pivot to work correctly.
+ */
+class OrganizationLocation extends Pivot
 {
-    use HasFactory;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'organization_locations'; // Make sure this is your exact pivot table name
+
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
     protected $primaryKey = 'OrganizationLocationID';
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     * This MUST be false for UUIDs.
+     *
+     * @var bool
+     */
     public $incrementing = false;
+
+    /**
+     * The "type" of the primary key.
+     *
+     * @var string
+     */
     protected $keyType = 'string';
 
-    public $timestamps = false;
+    /**
+     * The "booted" method of the model.
+     * This ensures the UUID is automatically generated.
+     */
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = Str::uuid();
+            }
+        });
+    }
 }

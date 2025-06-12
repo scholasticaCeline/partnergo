@@ -19,7 +19,10 @@ class AuthController extends Controller
         return view('auth.signup');
     }
 
-    public function login(Request $request){
+    public function login_logic(Request $request)
+    {
+        // \Log::info('Login method hit'); 
+        
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
@@ -27,16 +30,18 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
+            
+            \Log::info('Login success for: ' . Auth::user()->email);
             return redirect()->route('user.home');
         }
-
+        
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
-        ])->withInput();
+            ])->withInput();
     }
 
-    public function register(Request $request)
+
+    public function register_logic(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -58,7 +63,22 @@ class AuthController extends Controller
         $user->save();
 
         auth()->login($user);
+        $request->session()->regenerate();
+        \Log::info('Auth check: ', ['user' => auth()->user()]);
+        
+        return redirect()->route('user.home');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        \Log::info('User logged out successfully.');
 
         return redirect()->route('login');
     }
+
 }

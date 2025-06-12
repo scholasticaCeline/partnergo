@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use App\Models\Message;
+use App\Models\Proposal;
+use App\Models\Notification;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class User extends Authenticatable
 {
@@ -20,7 +26,7 @@ class User extends Authenticatable
         'email',
         'phoneNumber',
         'password',
-        'avatar'    
+        'avatar'
     ];
 
     protected $hidden = [
@@ -44,6 +50,13 @@ class User extends Authenticatable
                 $model->{$model->getKeyName()} = Str::uuid()->toString();
             }
         });
+    }
+
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'user_organizations', 'UserID', 'OrganizationID')
+                ->withPivot('IsAdmin')
+                ->using(UserOrganization::class);
     }
 
     public function userOrganizations()
