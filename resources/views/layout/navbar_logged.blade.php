@@ -21,17 +21,42 @@
         <div class="nav-links">
             <a href="{{ route('user.home') }}" class="nav-link">Home</a>
             <a href="{{ route('partners') }}" class="nav-link">Find Partners</a>
-            <a href="{{ route('proposals') }}" class="nav-link">My Proposals</a>
+            <a href="{{ route('proposals.list') }}" class="nav-link">My Proposals</a>
         </div>
         
         <!-- Notification, Message, Profile Picture -->
         <div class="user-section">
-            <button class="message-button" title="Messages">
+            <a href="{{ route('message') }}" class="message-button" title="Messages">
                 <img src="{{ asset('assets/messages.png') }}" alt="Messages" class="icon">
-            </button>
-            <button class="notif-button" title="Notifications">
-                <img src="{{ asset('assets/notif.png') }}" alt="Notifications" class="icon">
-            </button>
+            </a>
+            
+            <div class="notif-dropdown" id="notifDropdown">
+                <button class="notif-button" id="notifToggle" aria-haspopup="true" aria-expanded="false" aria-controls="notifMenu" title="Notifications">
+                    <img src="{{ asset('assets/notif.png') }}" alt="Notifications" class="icon">
+                </button>
+                <div class="notif-menu" id="notifMenu" role="menu" aria-labelledby="notifToggle">
+                    <div class="notif-header">ALERTS CENTER</div>
+
+                    @forelse($notifications as $notif)
+                        <div class="notif-item">
+                            <div class="notif-dot" style="background-color: {{ $notif->color ?? '#999' }}"></div>
+                            <div class="notif-content">
+                                <div class="notif-date">{{ \Carbon\Carbon::parse($notif->created_at)->format('F j, Y') }}</div>
+                                <div class="notif-text {{ is_null($notif->read_at) ? 'unread' : '' }}">
+                                    {{ $notif->Content }}
+                                    @if(is_null($notif->read_at))
+                                        <span class="notif-unread-dot"></span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="notif-item empty">No notifications</div>
+                    @endforelse
+                </div>
+            </div>
+
+
 
             <div class="dropdown" id="profileDropdown">
                 <button class="profile-button" id="dropdownToggle" aria-haspopup="true" aria-expanded="false" aria-controls="dropdownMenu">
@@ -62,14 +87,35 @@
         <div class="mobile-links">
             <a href="{{ route('user.home') }}" class="mobile-link">Home</a>
             <a href="{{ route('partners') }}" class="mobile-link">Find Partners</a>
-            <a href="{{ route('proposals') }}" class="mobile-link">My Proposals</a>
-            <div class="auth-mobile-buttons">
-                <a href="{{ route('login') }}" class="auth-mobile-button auth-login">
-                    Login
-                </a>
-                <a href="{{ route('register') }}" class="auth-mobile-button auth-signup">
-                    Sign Up
-                </a>
+            <a href="{{ route('proposals.list') }}" class="mobile-link">My Proposals</a>
+            <a href="{{ route('message') }}" class="message-button" title="Messages">
+                <img src="{{ asset('assets/messages.png') }}" alt="Messages" class="icon">
+            </a>
+            
+            <div class="notif-dropdown" id="notifDropdown">
+                <button class="notif-button" id="notifToggle" aria-haspopup="true" aria-expanded="false" aria-controls="notifMenu" title="Notifications">
+                    <img src="{{ asset('assets/notif.png') }}" alt="Notifications" class="icon">
+                </button>
+                <div class="notif-menu" id="notifMenu" role="menu" aria-labelledby="notifToggle">
+                    <div class="notif-header">ALERTS CENTER</div>
+
+                    @forelse($notifications as $notif)
+                        <div class="notif-item">
+                            <div class="notif-dot" style="background-color: {{ $notif->color ?? '#999' }}"></div>
+                            <div class="notif-content">
+                                <div class="notif-date">{{ \Carbon\Carbon::parse($notif->created_at)->format('F j, Y') }}</div>
+                                <div class="notif-text {{ is_null($notif->read_at) ? 'unread' : '' }}">
+                                    {{ $notif->Content }}
+                                    @if(is_null($notif->read_at))
+                                        <span class="notif-unread-dot"></span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="notif-item empty">No notifications</div>
+                    @endforelse
+                </div>
             </div>
         </div>
     </div>
@@ -105,6 +151,19 @@
         document.addEventListener('click', function () {
             menu.classList.remove('visible');
             toggle.setAttribute('aria-expanded', 'false');
+        });
+
+        const notifToggle = document.getElementById('notifToggle');
+        const notifMenu = document.getElementById('notifMenu');
+
+        notifToggle.addEventListener('click', () => {
+            notifMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!notifToggle.contains(e.target) && !notifMenu.contains(e.target)) {
+                notifMenu.classList.remove('show');
+            }
         });
     });    
 </script>

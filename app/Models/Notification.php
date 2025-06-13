@@ -14,6 +14,13 @@ class Notification extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'NotificationID',
+        'TargetType',
+        'TargetID',
+        'Content',
+    ];
+    
     public function scopeUnread(Builder $query): Builder
     {
         return $query->whereNull('read_at');

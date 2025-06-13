@@ -1,0 +1,109 @@
+:root {
+    --primary-color: #f8971d;
+    --primary-light: #fff7ed;
+    --border-color: #e2e8f0;
+    --text-dark: #1e3a8a;
+    --text-light: #475569;
+    --body-bg: #FFF8F5;
+    --card-bg: #ffffff;
+    --font-family: 'Jost', sans-serif;
+
+    --success-color: #16a34a; 
+    --danger-color: #dc2626; 
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--body-bg);
+    color: var(--text-light);
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.header h1 {
+    color: var(--text-dark);
+    font-size: 2.5em;
+    margin: 0;
+}
+.header .create-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+.header .create-button:hover {
+    background-color: darken(var(--primary-color), 10%); /* This won't work in pure CSS, use a slightly darker hex code or a preprocessor */
+    opacity: 0.9;
+}
+.proposal-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+.proposal-card:hover {
+    transform: translateY(-5px);
+}
+.proposal-card h2 {
+    color: var(--primary-color);
+    font-size: 1.8em;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.proposal-card p {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+.proposal-card .meta-info {
+    font-size: 0.9em;
+    color: var(--text-light);
+    margin-top: 15px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+}
+.proposal-card .meta-info strong {
+    color: var(--text-dark);
+}
+.proposal-card .status {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 0.85em;
+}
+.status-submitted {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+.status-accepted {
+    background-color: rgba(22, 163, 74, 0.1); /* light green */
+    color: var(--success-color);
+}
+.status-rejected {
+    background-color: rgba(220, 38, 38, 0.1); /* light red */
+    color: var(--danger-color);
+}
+.status-pending {
+    background-color: #fef3c7; /* light yellow */
+    color: #d97706; /* dark yellow */
+}
+.pagination-links {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}

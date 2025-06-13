@@ -102,6 +102,10 @@ class Organization extends Model
     {
         return $this->hasMany(OrganizationLocation::class, 'OrganizationID', 'OrganizationID');
     }
-    
+    public function proposingOrganization()
+    {
+        return $this->belongsTo(Organization::class, 'ProposingOrganizationID', 'OrganizationID');
+    }
+
 }
 

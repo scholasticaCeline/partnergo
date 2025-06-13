@@ -16,9 +16,21 @@ use App\Http\Controllers\Controller;
 class OrganizationController extends Controller
 {
     /**
+     * Display a listing of all organization.
+     */
+    public function index()
+    {
+        $organization = Organization::with(['locations', 'industries', 'partnershipTypes'])
+                                    ->latest('created_at')
+                                    ->paginate(10);
+
+        return view('organization.index', compact('organization'));
+    }
+
+    /**
      * Display the specified organization's public profile.
      */
-    public function show(Organization $organizametion)
+    public function show(Organization $organization)
     {
         $organization->load(['industries', 'partnershipTypes', 'locations', 'users']);
         return view('organization.show', ['organization' => $organization]);
@@ -76,8 +88,8 @@ class OrganizationController extends Controller
             return $organization;
         });
 
-        return redirect()->route('organizations.show', $organization)
-                        ->with('success', 'Your organization page has been created successfully!');
+        return redirect()->route('organization.show', $organization)
+                         ->with('success', 'Your organization page has been created successfully!');
     }
 
     /**
@@ -90,6 +102,7 @@ class OrganizationController extends Controller
         $partnerships = Proposal::where('OrganizationID', $organization->OrganizationID)
                                 ->where('ProposalStatus', 'accepted')
                                 ->whereNotNull('StartDate')
+                                ->whereNotNull('EndDate')
                                 ->get();
 
         $events = $partnerships->map(function ($partnership) {
@@ -103,14 +116,14 @@ class OrganizationController extends Controller
 
         $proposalsToUs = Proposal::where('OrganizationID', $organization->OrganizationID)
                                 ->with('user', 'proposingOrganization')
-                                ->latest('created_at')
+                                ->latest('created_at') 
                                 ->take(5)
                                 ->get();
 
         return view('organization.dashboard', [
             'organization' => $organization,
             'events' => $events,
-            'proposalsToUs' => $proposalsToUs,
+            'proposalsToUs' => $proposalsToUs, // This variable is for proposals sent TO this org
         ]);
     }
 
@@ -131,7 +144,7 @@ class OrganizationController extends Controller
     }
 
     /**
-     * Update the organization's basic details.
+     * Update the organization's basic details (Name, Description).
      */
     public function updateDetails(Request $request, Organization $organization)
     {
@@ -165,24 +178,38 @@ class OrganizationController extends Controller
     }
 
     /**
-     * Update the roles of organization members.
+     * Update the roles of organization members (e.g., IsAdmin status).
      */
     public function updateMembers(Request $request, Organization $organization)
     {
         $this->authorize('update', $organization);
 
         $validated = $request->validate([
-            'admins' => 'nullable|array',
-            'admins.*' => 'in:1',
+            'admins' => 'nullable|array', // 'admins' array will contain user IDs for whom the checkbox was checked
+            'admins.*' => 'in:1', // Ensures values are '1' if present
         ]);
 
-        $adminUserIDs = array_keys($validated['admins'] ?? []);
+        $adminUserIDsFromRequest = array_keys($validated['admins'] ?? []);
 
-        foreach ($organization->users as $user) {
-            $isAdmin = in_array($user->UserID, $adminUserIDs);
-            $organization->users()->updateExistingPivot($user->UserID, ['IsAdmin' => $isAdmin]);
+        $proposedAdminCount = 0;
+        foreach ($organization->users as $member) {
+            if (in_array($member->UserID, $adminUserIDsFromRequest)) {
+                $proposedAdminCount++;
+            }
         }
 
-        return redirect()->route('', $organization)->with('success', 'Member roles updated successfully.');
+        // IMPORTANT: Prevent the update if it would leave the organization with 0 administrators.
+        if ($proposedAdminCount === 0) {
+            // Return with an error message, which will be caught by @error directive in Blade
+            return redirect()->back()->withErrors(['admins' => 'An organization must have at least one administrator. Please ensure at least one member retains admin status.']);
+        }
+
+        // Proceed with updating roles if there's at least one admin after the proposed changes
+        foreach ($organization->users as $member) {
+            $isAdmin = in_array($member->UserID, $adminUserIDsFromRequest);
+            $organization->users()->updateExistingPivot($member->UserID, ['IsAdmin' => $isAdmin]);
+        }
+
+        return redirect()->route('organization.manage', $organization)->with('success', 'Member roles updated successfully.');
     }
 }

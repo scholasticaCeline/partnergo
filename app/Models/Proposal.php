@@ -4,18 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Concerns\HasUuids; // Don't forget to import this
 
 class Proposal extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids; // Make sure HasUuids is used here
+
     protected $primaryKey = 'ProposalID';
     public $incrementing = false;
     protected $keyType = 'string';
 
     /**
      * The attributes that are mass assignable.
-     * CORRECTED $fillable ARRAY
      */
     protected $fillable = [
         'ProposalID',
@@ -30,9 +30,22 @@ class Proposal extends Model
         'PartnershipTypeID',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     * This is the crucial part for your error!
+     *
+     * @var array
+     */
+    protected $casts = [
+        'StartDate'  => 'datetime',
+        'EndDate'    => 'datetime',
+        'created_at' => 'datetime', // Laravel typically handles this, but explicit casting is robust
+        'updated_at' => 'datetime', // Laravel typically handles this, but explicit casting is robust
+    ];
+
     public function user()
     {
-        return $this->belongsTo(User::class, 'UserID');
+        return $this->belongsTo(User::class, 'UserID', 'UserID'); // Assuming UserID is the primary key for User
     }
 
     public function organization()
@@ -53,5 +66,10 @@ class Proposal extends Model
     public function files()
     {
         return $this->hasMany(ProposalFile::class, 'ProposalID', 'ProposalID');
+    }
+
+    public function targetOrganization()
+    {
+        return $this->belongsTo(Organization::class, 'OrganizationID', 'OrganizationID');
     }
 }

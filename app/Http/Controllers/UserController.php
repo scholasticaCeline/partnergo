@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Proposal;
 use App\Models\Message;
+use App\Models\Partnership;
 use App\Models\Organization;
+use App\Models\Notification;
 
 class UserController extends Controller
 {
@@ -17,64 +19,55 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
-
         if (!$user) {
             return redirect()->route('login');
         }
 
-        // --- 1. Fetch Calendar Events (Accepted Partnerships) ---
         $userOrganizationIds = $user->organizations()->pluck('organizations.OrganizationID');
 
-        $partnerships = Proposal::where('ProposalStatus', 'accepted')
-            ->whereNotNull('StartDate')
-            ->whereNotNull('EndDate')
-            ->where(function ($query) use ($user, $userOrganizationIds) {
-                $query->where('UserID', $user->UserID)
-                    ->orWhereIn('OrganizationID', $userOrganizationIds);
+        $partnerships = Partnership::with('proposal')
+            ->where(function ($query) use ($userOrganizationIds) {
+                $query->whereIn('OrganizationSenderID', $userOrganizationIds)
+                    ->orWhereIn('OrganizationTargetID', $userOrganizationIds);
             })
             ->get();
 
-        $events = $partnerships->map(function ($partnership) {
+        $events = $partnerships->map(function ($p) {
             return [
-                'title' => $partnership->ProposalTitle,
-                'start' => $partnership->StartDate,
-                'end'   => $partnership->EndDate,
-                'url'   => route('proposals.show', $partnership->ProposalID),
-                'backgroundColor' => '#16a34a',
-                'borderColor'     => '#16a34a'
+                'title' => $p->proposal->ProposalTitle ?? 'Partnership',
+                'start' => $p->StartDate,
+                'end'   => $p->EndDate,
+                'url'   => route('proposals.show', ['proposal' => $p->ProposalID]),
+                'color' => '#f8971d',
+                'borderColor' => '#f8971d'
             ];
         });
 
+        $upcomingPartnerships = $partnerships->where('Status', 'Active')
+                                            ->where('EndDate', '>=', now())
+                                            ->sortBy('EndDate');
 
-        // --- 2. Fetch the Latest Unread Message (CORRECTED QUERY) ---
-        $latestUnreadMessage = null;
-        if (class_exists(\App\Models\Message::class)) {
-            // This query now matches your confirmed database structure exactly.
-            $latestUnreadMessage = \App\Models\Message::where('ReceiverID', $user->UserID) // Use your ReceiverID column
-                                            ->whereNull('readAt')      // Check for NULL in your readAt column
-                                            ->with('sender')
-                                            ->latest('CreatedAt')      // Order by your CreatedAt column
-                                            ->first();
-        }
-
-
-        // --- 3. Fetch Data for Sidebar Widgets ---
-        $proposals = Proposal::with('targetOrganization')
-                            ->where('UserID', $user->UserID)
-                            ->latest()
-                            ->take(5)
-                            ->get();
-
+        $proposals = \App\Models\Proposal::with('targetOrganization')
+                        ->where('UserID', $user->UserID)->latest()->take(5)->get();
         $organizations = $user->organizations()->withCount('users')->get();
+        $latestUnreadMessage = null;
 
-
-        // --- 4. Return the View with all the data ---
-        return view('user.home', [ // Or user.dashboard, depending on your file name
+        return view('user.home', [
             'user' => $user,
             'organizations' => $organizations,
-            'events' => $events,
             'proposals' => $proposals,
             'latestUnreadMessage' => $latestUnreadMessage,
+            'upcomingPartnerships' => $upcomingPartnerships,
+            'events' => $events,
         ]);
+    }
+
+    public function getUserNotifications()
+    {
+        return Notification::where('TargetType', 'user')
+            ->where('TargetID', auth()->id())
+            ->latest()
+            ->take(5)
+            ->get();
     }
 }

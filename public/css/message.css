@@ -1,0 +1,107 @@
+:root {
+    /* Your brand variables */
+    --primary-color: #f8971d; 
+    --primary-light: #fff7ed; 
+    --border-color: #e2e8f0; 
+    --text-dark: #1e3a8a; 
+    --text-light: #475569; 
+    --body-bg: #f8fafc; 
+    --card-bg: #ffffff; 
+    --font-family: 'Jost', sans-serif;
+}
+
+/* Your application's main body should have this if your navbar is fixed */
+body {
+    font-family: var(--font-family);
+    background-color: var(--body-bg);
+    overflow: hidden; /* Prevent the main page from scrolling behind the chat UI */
+}
+
+/* Main Chat Layout Container */
+.chat-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar (Conversation List) */
+.chat-sidebar {
+    width: 320px;
+    background: var(--card-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.sidebar-header .back-link {
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 1rem;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+.sidebar-header h2 { font-size: 1.5rem; color: var(--text-dark); margin: 0; }
+.sidebar-search { padding: 1rem 1.5rem; }
+.sidebar-search input { width: 100%; padding: 10px 15px; border-radius: 20px; border: 1px solid var(--border-color); font-size: 0.9rem; }
+.conversations-list { flex-grow: 1; overflow-y: auto; }
+.conversation-item { display: flex; align-items: center; padding: 1rem 1.5rem; cursor: pointer; border-bottom: 1px solid var(--border-color); }
+.conversation-item:hover { background-color: var(--primary-light); }
+.conversation-item.active { background-color: var(--primary-light); }
+.avatar { width: 48px; height: 48px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.2rem; margin-right: 1rem; flex-shrink: 0; }
+.convo-details h4 { margin: 0 0 4px 0; color: var(--text-dark); font-weight: 600; font-size: 1rem; }
+.convo-details p { margin: 0; color: var(--text-light); font-size: 0.9rem; }
+
+/* Main Content Area (wrapper for chat and info panels) */
+.chat-main-content {
+    flex-grow: 1;
+    display: flex;
+}
+
+/* Main Chat Panel */
+.chat-panel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary-light);
+    transition: width 0.3s ease-in-out;
+}
+.chat-header { display: flex; align-items: center; padding: 1rem 1.5rem; background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); cursor: pointer; }
+.chat-messages { flex-grow: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
+.message-bubble { padding: 10px 18px; border-radius: 20px; max-width: 75%; line-height: 1.5; }
+.message-bubble.sent { background-color: var(--primary-color); color: white; align-self: flex-end; border-bottom-right-radius: 5px; }
+.message-bubble.received { background-color: var(--card-bg); color: var(--text-dark); align-self: flex-start; border-bottom-left-radius: 5px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.message-input-area { padding: 1rem 1.5rem; background-color: var(--card-bg); border-top: 1px solid var(--border-color); }
+.message-input-area form { display: flex; align-items: center; }
+.message-input-area input { flex-grow: 1; background: var(--body-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 12px 20px; font-size: 1rem; }
+.message-input-area input:focus { outline: none; border-color: var(--primary-color); }
+.message-input-area button { background: none; border: none; cursor: pointer; padding: 0.5rem; margin-left: 0.5rem; }
+.message-input-area button svg { fill: var(--primary-color); }
+
+/* Info Panel (Right Side) */
+.info-panel {
+    width: 0; /* Hidden by default */
+    background: var(--card-bg);
+    border-left: 1px solid var(--border-color);
+    padding: 0;
+    overflow: hidden;
+    transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
+}
+.info-panel.visible {
+    width: 350px; /* Expands to its width */
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+.chat-main-content.info-visible .chat-panel {
+    width: calc(100% - 350px); /* Chat panel shrinks to make space */
+}
+
+.info-panel .avatar { margin: 1rem auto; width: 80px; height: 80px; font-size: 2rem; }
+.info-panel h3 { color: var(--text-dark); margin-top: 1rem; margin-bottom: 0.5rem; }
+.info-panel p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 2rem; }
+.info-panel .info-section { text-align: left; margin-top: 1.5rem; }
+.info-panel .info-section h4 { color: var(--text-dark); font-size: 1rem; margin-bottom: 1rem; }
+.info-panel .placeholder { height: 100px; background: var(--body-bg); border-radius: 8px; }

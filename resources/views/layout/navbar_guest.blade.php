@@ -21,7 +21,7 @@
         <div class="nav-links">
             <a href="{{ route('landing') }}" class="nav-link">Home</a>
             <a href="{{ route('partners') }}" class="nav-link">Find Partners</a>
-            <a href="{{ route('proposals') }}" class="nav-link">My Proposals</a>
+            <a href="{{ route('proposals.list') }}" class="nav-link">My Proposals</a>
         </div>
         
         <!-- Login/Sign Up Buttons -->
@@ -46,7 +46,7 @@
         <div class="mobile-links">
             <a href="{{ route('landing') }}" class="mobile-link">Home</a>
             <a href="{{ route('partners') }}" class="mobile-link">Find Partners</a>
-            <a href="{{ route('proposals') }}" class="mobile-link">My Proposals</a>
+            <a href="{{ route('proposals.list') }}" class="mobile-link">My Proposals</a>
             <div class="auth-mobile-buttons">
                 <a href="{{ route('login') }}" class="auth-mobile-button auth-login">
                     Login

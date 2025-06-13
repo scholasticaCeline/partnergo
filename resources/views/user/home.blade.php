@@ -6,24 +6,22 @@
 @endpush
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
+                
                 headerToolbar: {
-                    left: '',
+                    left: 'today',
                     center: 'title',
                     right: 'prev,next'
                 },
+                
                 height: 'auto',
-                events: {!! json_encode($events) !!},
-                eventTimeFormat: {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    meridiem: 'short'
-                }
+                events: {!! json_encode($events) !!} 
             });
             calendar.render();
         });
@@ -47,25 +45,47 @@
         <!-- Main Content -->
         <div class="main-container">
             <main class="main-content">
-                <!-- Calendar Section -->
-                <section class="calendar-section">
-                    <h2>Calendar</h2>
-                    <div class="calendar-container">
-                        <div id="calendar"></div>
-                        <!-- Calendar content would go here -->
+                <section class="tasks-section">
+                    <h2>Upcoming Partnership Deadlines</h2>
+                    <div class="tasks-grid">
+                        @forelse ($upcomingPartnerships as $partnership)
+                            <div class="task-item">
+                                @php
+                                    // Determine the partner organization
+                                    $partnerOrg = $partnership->senderOrganization;
+                                    foreach($organizations as $userOrg) {
+                                        if ($partnership->senderOrganization->OrganizationID === $userOrg->OrganizationID) {
+                                            $partnerOrg = $partnership->targetOrganization;
+                                            break;
+                                        }
+                                    }
+                                @endphp
+                                <div class="task-header">
+                                    <h4 class="task-title">{{ $partnership->proposal->ProposalTitle ?? 'Partnership' }}</h4>
+                                    <span class="task-partner">with {{ $partnerOrg->Name }}</span>
+                                </div>
+                                <div class="task-body">
+                                    <p class="task-countdown">
+                                        Ends in: <strong>{{ now()->diffInDays($partnership->EndDate, false) }} days</strong>
+                                    </p>
+                                </div>
+                                <div class="task-footer">
+                                    <a href="{{ route('proposals.show', $partnership->ProposalID) }}" class="task-link">View Details</a>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="empty-state-full">
+                                <p>You have no active or upcoming partnerships.</p>
+                                <a href="{{ route('partners') }}" class="btn btn-primary">Find a Partner</a>
+                            </div>
+                        @endforelse
                     </div>
                 </section>
 
-                <!-- Tasks Section -->
-                <section class="tasks-section">
-                    <h2>Upcoming Tasks</h2>
-                    <div class="tasks-grid">
-                        <!-- Task items would be populated here -->
-                        @for ($i = 0; $i < 4; $i++)
-                            <div class="task-item">
-                                <!-- Task content would go here -->
-                            </div>
-                        @endfor
+                <section class="calendar-section">
+                    <h2>Partnership Timeline</h2>
+                    <div class="calendar-container">
+                        <div id="calendar"></div>
                     </div>
                 </section>
             </main>
@@ -92,7 +112,7 @@
                             </div>
                         @endforelse
                     </div>
-                    <a href="#" class="see-all">See all your proposals <span class="arrow">›</span></a>
+                    <a href="{{ route('proposals.list') }}" class="see-all">See all your proposals <span class="arrow">›</span></a>
                 </section>
 
                 <!-- Messages Section -->
@@ -114,7 +134,7 @@
                             <p>No unread messages.</p>
                         </div>
                     @endif
-                        <a href="#" class="see-all">See more messages <span class="arrow">›</span></a>
+                        <a href="{{  route('message') }}" class="see-all">See more messages <span class="arrow">›</span></a>
                 </section>
 
                 @if($organizations->isNotEmpty())

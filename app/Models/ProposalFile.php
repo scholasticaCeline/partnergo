@@ -35,7 +35,7 @@ class ProposalFile extends Model
         'UploadedBy',
         'ProposalID',
         'FileName',
-        'FilePath',
+        'Filepath',
     ];
 
     /**

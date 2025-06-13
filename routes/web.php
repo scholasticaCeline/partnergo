@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\SearchPartnerController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrganizationController;
 
@@ -26,7 +27,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.home');   
     Route::get('/partners', [SearchPartnerController::class, 'index'])->name('partners');
-    Route::get('/proposals', [ProposalController::class, 'index'])->name('proposals');
+    Route::get('/proposals', [ProposalController::class, 'index'])->name('proposals.list');
     
     // Create organization route
     Route::get('/organization/create', [OrganizationController::class, 'create'])->name('organizations.create');
@@ -59,4 +60,35 @@ Route::middleware(['auth'])->group(function () {
     
     // Route to handle updating member roles
     Route::patch('/organizations/{organization}/manage/members', [OrganizationController::class, 'updateMembers'])->name('organization.update.members');
+
+    // Route for accepting a proposal
+    Route::patch('/proposals/{proposal}/accept', [ProposalController::class, 'accept'])->name('proposals.accept');
+    
+    // Route for rejecting a proposal
+    Route::patch('/proposals/{proposal}/reject', [ProposalController::class, 'reject'])->name('proposals.reject');
+
+    // Route for notifications
+    Route::post('/notifications/{id}/read', function ($id) {
+        $notif = Notification::findOrFail($id);
+
+        // Ensure it's the user's own notification (optional security)
+        if ($notif->TargetID === auth()->id()) {
+            $notif->read_at = now();
+            $notif->save();
+        }
+
+        return response()->json(['success' => true]);
+    });
+
+    // MESSAGE PART
+    // The main message page
+    Route::get('/message', [MessageController::class, 'index'])->name('message');
+
+    // The route to fetch a specific conversation's history
+    Route::get('/message/{user}', [MessageController::class, 'show'])->name('message.show');
+    
+    // The route to send a new message
+    Route::post('/message/{user}', [MessageController::class, 'store'])->name('message.store');
 });
+
+

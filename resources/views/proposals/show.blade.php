@@ -12,7 +12,7 @@
                 <h1>{{ $proposal->ProposalTitle }}</h1>
                 <p style="color: var(--text-muted);">
                     <span class="status-badge
-                    @if($proposal->ProposalStatus == 'submitted') status-submitted
+                    @if($proposal->ProposalStatus == 'pending') status-submitted
                         @elseif($proposal->ProposalStatus == 'accepted') status-accepted
                         @elseif($proposal->ProposalStatus == 'rejected') status-rejected
                         @else status-default
@@ -54,6 +54,31 @@
         {{-- Sidebar Column for Details --}}
         <div class="sidebar">
             <div class="content-box">
+                @can('update', $proposal->organization)
+                    <div class="admin-actions">
+                        <h5>Admin Actions</h5>
+                        
+                        @if ($proposal->ProposalStatus === 'submitted' || $proposal->ProposalStatus === 'pending')
+                            <div class="action-buttons">
+                                <form action="{{ route('proposals.accept', $proposal) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn-success">✔ Accept Proposal</button>
+                                </form>
+                                <form action="{{ route('proposals.reject', $proposal) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn-danger">✖ Reject</button>
+                                </form>
+                            </div>
+                        @else
+                            <div class="action-taken-message">
+                                This proposal has already been {{ $proposal->ProposalStatus }}.
+                            </div>
+                        @endif
+                    </div>
+                    <hr>
+                @endcan
                 <div class="header">
                     <h5>Partnership Details</h5>
                 </div>
@@ -72,10 +97,6 @@
 
                     <li>
                         <strong>Proposal For</strong>
-                        {{--
-                        - Check if the relationship exists first.
-                        - Use ->Name instead of ->OrganizationName
-                        --}}
                         <span>{{ $proposal->organization->Name ?? 'N/A' }}</span>
                     </li>
 

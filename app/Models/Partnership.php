@@ -14,6 +14,18 @@ class Partnership extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'PartnershipID',
+        'ProposalID',
+        'OrganizationSenderID',
+        'OrganizationTargetID',
+        'PartnershipTypeID',
+        'Status',
+        'StartDate',
+        'EndDate',
+        'CreatedAt',
+    ];
+
     protected $dates = ['CreatedAt', 'StartDate', 'EndDate'];
 
     public function sender()
