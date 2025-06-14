@@ -38,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
     // The POST route to submit the form now uses the same URL.
     Route::post('/organization/{organization}/propose', [ProposalController::class, 'store'])->name('proposals.store');
     // The GENERAL "show profile" route comes LAST.
-    Route::get('/organization/{organization}', [OrganizationController::class, 'show'])->name('organizations.show');
+    Route::get('/organization/{organization}', [OrganizationController::class, 'show'])->name('organization.show');
 
     // Show proposals route
     Route::get('/proposals/{proposal}', [ProposalController::class, 'show'])->name('proposals.show');
@@ -83,6 +83,9 @@ Route::middleware(['auth'])->group(function () {
     // MESSAGE PART
     // The main message page
     Route::get('/message', [MessageController::class, 'index'])->name('message');
+
+    // The route to start a new message to a user
+    Route::get('/message/start/{user}', [MessageController::class, 'startFromUser'])->name('message.start');
 
     // The route to fetch a specific conversation's history
     Route::get('/message/{user}', [MessageController::class, 'show'])->name('message.show');

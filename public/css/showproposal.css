@@ -8,26 +8,23 @@
     --card-bg: #ffffff;
     --font-family: 'Jost', sans-serif;
 
-    /* Added status colors that complement your palette */
-    --success-color: #16a34a; /* A nice green for 'accepted' */
-    --danger-color: #dc2626;  /* A standard red for 'rejected' */
+    --success-color: #16a34a;
+    --danger-color: #dc2626; 
 }
 
-/* Basic Page Styles using your variables */
 body {
     font-family: var(--font-family);
     background-color: var(--body-bg);
-    color: var(--text-light); /* Default text color is the lighter one */
+    color: var(--text-light); 
     line-height: 1.6;
 }
 
-/* Main Layout Container using Flexbox */
 .proposal-page-container {
     max-width: 1100px;
     margin: 40px auto;
     padding: 20px;
     display: flex;
-    gap: 30px; /* Space between main content and sidebar */
+    gap: 30px; 
 }
 
 .main-content {
@@ -38,7 +35,6 @@ body {
     flex: 2;
 }
 
-/* Card-like Styling using your variables */
 .content-box {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -48,7 +44,6 @@ body {
 }
 
 .sidebar .content-box .header {
-    /* Using a light gray for a neutral header background */
     background-color: #f8fafc;
     margin: -25px -25px 20px -25px;
     padding: 15px 25px;
@@ -56,9 +51,90 @@ body {
     border-radius: 8px 8px 0 0;
 }
 
-/* Typography using your variables */
+.admin-actions {
+    padding: 1rem 1.5rem;
+    background-color: var(--primary-light);
+    border-bottom: 1px solid var(--border-color);
+}
+.admin-actions h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+.action-buttons {
+    display: flex;
+    gap: 0.75rem; 
+}
+.action-buttons form {
+    margin: 0;
+}
+
+.action-buttons button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; 
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+}
+.btn-success:hover {
+    background-color: #15803d; 
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #9f1239; /* A slightly darker red */
+}
+
+/* Styles for the message shown after an action is taken */
+.action-taken-message {
+    font-weight: 500;
+    color: var(--text-light);
+    background-color: #f8fafc;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.action-buttons .btn-secondary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    font-family: inherit;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-secondary {
+    background-color: #e2e8f0; 
+    color: var(--text-dark);
+}
+
+.btn-secondary:hover {
+    background-color: #cbd5e1; 
+}
+
 h1, h5 {
-    color: var(--text-dark); /* Headings use the main dark blue text color */
+    color: var(--text-dark); 
 }
 h1 {
     font-size: 1.8rem;
@@ -82,7 +158,6 @@ hr {
     margin: 2rem 0;
 }
 
-/* Status Badge using your variables */
 .status-badge {
     display: inline-block;
     padding: 0.5em 0.8em;
@@ -96,7 +171,6 @@ hr {
 .status-rejected { background-color: var(--danger-color); }
 .status-default { background-color: var(--text-light); }
 
-/* File List using your variables */
 .file-list {
     list-style: none;
     padding: 0;
@@ -125,7 +199,6 @@ hr {
     text-decoration: underline;
 }
 
-/* Details List in Sidebar using your variables */
 .details-list {
     list-style: none;
     padding: 0;
@@ -141,11 +214,10 @@ hr {
 }
 .details-list span {
     font-size: 1rem;
-    color: var(--text-dark); /* Details text is the darker color */
+    color: var(--text-dark); 
     font-weight: 500;
 }
 
-/* Responsive layout for smaller screens */
 @media (max-width: 900px) {
     .proposal-page-container {
         flex-direction: column;

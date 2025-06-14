@@ -81,7 +81,7 @@
 
             {{-- Form Actions --}}
             <div class="form-actions">
-                <a href="{{ route('organizations.show', $organization) }}" class="button button-secondary">Cancel</a>
+                <a href="{{ route('organization.show', $organization) }}" class="button button-secondary">Cancel</a>
                 <button type="submit" class="button button-primary">Send Proposal</button>
             </div>
         </form>

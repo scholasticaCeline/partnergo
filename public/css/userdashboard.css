@@ -7,6 +7,8 @@
     --text-light: #475569;
     --body-bg: #f8fafc;
     --card-bg: #ffffff;
+    --success-color: #16a34a;
+    --danger-color: #be123c; 
     --font-family: 'Jost', sans-serif;
 }
 
@@ -200,9 +202,6 @@ a {
 }
 
 
-/* ================================================= */
-/* NEW STYLES FOR THE "YOUR COMPANY" WIDGET          */
-/* ================================================= */
 .organization-section .organization-list {
     padding: 1rem;
 }
@@ -243,7 +242,7 @@ a {
     margin-left: auto;
 }
 
-/* General Button Styles for the Sidebar */
+
 .btn {
     display: inline-block;
     padding: 0.5rem 1rem;

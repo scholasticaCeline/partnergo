@@ -94,7 +94,7 @@
 
         <div class="companies-grid">
             @forelse($organizations as $org)
-            <a href="{{ route('organizations.show', $org) }}" class="company-card-link">    
+            <a href="{{ route('organization.show', $org) }}" class="company-card-link">    
                 <div class="company-card">
                     <div class="company-logo">
                         {{ strtoupper(substr($org->Name, 0, 1)) }}

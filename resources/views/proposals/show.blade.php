@@ -58,18 +58,19 @@
                     <div class="admin-actions">
                         <h5>Admin Actions</h5>
                         
-                        @if ($proposal->ProposalStatus === 'submitted' || $proposal->ProposalStatus === 'pending')
+                        @if ($proposal->ProposalStatus == 'pending' || $proposal->ProposalStatus == 'submitted')
                             <div class="action-buttons">
                                 <form action="{{ route('proposals.accept', $proposal) }}" method="POST">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="btn-success">✔ Accept Proposal</button>
+                                    <button type="submit" class="btn-success">Accept</button>
                                 </form>
                                 <form action="{{ route('proposals.reject', $proposal) }}" method="POST">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="btn-danger">✖ Reject</button>
+                                    <button type="submit" class="btn-danger">Reject</button>
                                 </form>
+                                <a href="{{ route('message', $proposal->user) }}" class="btn-secondary">Message</a>
                             </div>
                         @else
                             <div class="action-taken-message">

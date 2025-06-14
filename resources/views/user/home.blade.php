@@ -164,7 +164,7 @@
                                         <span>{{ $organization->users_count }} Members</span>
                                     </div>
                                     <div class="widget-actions">
-                                        <a href="{{ route('organizations.show', $organization) }}" class="btn btn-secondary btn-sm">View</a>
+                                        <a href="{{ route('organization.show', $organization) }}" class="btn btn-secondary btn-sm">View</a>
                                         @if($organization->pivot->IsAdmin ?? true)
                                             <a href="{{ route('organization.dashboard', $organization) }}" class="btn btn-primary btn-sm">Manage</a>
                                         @endif

@@ -103,7 +103,7 @@ class ProposalController extends Controller
                         'ProposalFileID' => Str::uuid(),
                         'UploadedBy'     => $user->UserID, // Use correct UserID property
                         'FileName'       => $file->getClientOriginalName(),
-                        'FilePath'       => $path, // Use correct case 'FilePath'
+                        'Filepath'       => $path,
                     ]);
                 }
             }
@@ -170,10 +170,10 @@ class ProposalController extends Controller
      */
     public function downloadFile(ProposalFile $proposalFile)
     {
-        if (empty($proposalFile->FilePath) || !Storage::disk('private')->exists($proposalFile->FilePath)) {
+        if (empty($proposalFile->Filepath) || !Storage::disk('private')->exists($proposalFile->Filepath)) {
             abort(404, 'File not found on disk.');
         }
 
-        return Storage::disk('private')->download($proposalFile->FilePath, $proposalFile->FileName);
+        return Storage::disk('private')->download($proposalFile->Filepath, $proposalFile->FileName);
     }
 }
