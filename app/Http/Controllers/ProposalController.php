@@ -137,10 +137,19 @@ class ProposalController extends Controller
         $this->authorize('update', $proposal->organization);
 
         DB::transaction(function () use ($proposal) {
+            // 1. Update the proposal's status
             $proposal->update(['ProposalStatus' => 'accepted']);
 
-            Partnership::where('ProposalID', $proposal->ProposalID)
-                    ->update(['Status' => 'Active']);
+            // 2. Find the corresponding PENDING partnership and update its status.
+            // Also, ensure the OrganizationSenderID is correctly assigned.
+            $partnership = Partnership::where('ProposalID', $proposal->ProposalID)->firstOrFail();
+
+            $partnership->update([
+                'Status' => 'Active',
+                // THIS IS THE FIX: We get the ID directly from the proposal object.
+                // This is safe and will correctly be `null` if no proposing org exists.
+                'OrganizationSenderID' => $proposal->ProposingOrganizationID,
+            ]);
         });
 
         return redirect()->route('proposals.show', $proposal)

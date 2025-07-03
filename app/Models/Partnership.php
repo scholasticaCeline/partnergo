@@ -47,5 +47,14 @@ class Partnership extends Model
     {
         return $this->belongsTo(PartnershipType::class, 'PartnershipTypeID');
     }
+    public function senderOrganization()
+    {
+        return $this->belongsTo(Organization::class, 'OrganizationSenderID', 'OrganizationID');
+    }
+
+    public function targetOrganization()
+    {
+        return $this->belongsTo(Organization::class, 'OrganizationTargetID', 'OrganizationID');
+    }
 }
 

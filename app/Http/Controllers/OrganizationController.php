@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use App\Models\Proposal;
+use App\Models\Partnership; 
 use App\Models\Location;
 use App\Models\IndustryType;
 use App\Models\PartnershipType;
@@ -97,33 +98,54 @@ class OrganizationController extends Controller
      */
     public function dashboard(Organization $organization)
     {
+        // 1. Authorize: Ensure the user can view this dashboard
         $this->authorize('viewDashboard', $organization);
 
-        $partnerships = Proposal::where('OrganizationID', $organization->OrganizationID)
-                                ->where('ProposalStatus', 'accepted')
-                                ->whereNotNull('StartDate')
-                                ->whereNotNull('EndDate')
-                                ->get();
+        // 2. Fetch all partnerships (pending and active) related to this organization
+        $allPartnerships = Partnership::with('proposal')
+            ->where(function ($query) use ($organization) {
+                $query->where('OrganizationSenderID', $organization->OrganizationID)
+                    ->orWhere('OrganizationTargetID', $organization->OrganizationID);
+            })
+            ->get();
+            
+        // 3. Prepare data for "Upcoming Tasks" from ACTIVE partnerships
+        $upcomingPartnerships = $allPartnerships->where('Status', 'Active')
+                                                ->where('EndDate', '>=', now())
+                                                ->sortBy('EndDate');
 
-        $events = $partnerships->map(function ($partnership) {
+        // 4. PREPARE DATA FOR THE SIMPLE CALENDAR (No more Gantt chart data)
+        // We only need one simple $events array now.
+        $events = $allPartnerships->map(function ($p) {
+            // Assign colors based on status
+            $color = match (strtolower($p->Status)) {
+                'active' => '#16a34a', // Green
+                'pending' => '#f8971d',// Orange
+                default => '#6c757d',  // Gray
+            };
+
             return [
-                'title' => $partnership->ProposalTitle,
-                'start' => $partnership->StartDate,
-                'end'   => $partnership->EndDate,
-                'url'   => route('proposals.show', $partnership->ProposalID),
+                'title' => $p->proposal->ProposalTitle ?? 'Partnership',
+                'start' => $p->StartDate,
+                'end'   => $p->EndDate, // FullCalendar automatically shows duration with start/end
+                'url'   => route('proposals.show', ['proposal' => $p->ProposalID]),
+                'color' => $color,
             ];
         });
 
+
+        // 5. Fetch sidebar data
         $proposalsToUs = Proposal::where('OrganizationID', $organization->OrganizationID)
                                 ->with('user', 'proposingOrganization')
-                                ->latest('created_at') 
-                                ->take(5)
-                                ->get();
+                                ->latest()->take(5)->get();
 
+
+        // 6. Return the view with the correct, simple $events variable
         return view('organization.dashboard', [
             'organization' => $organization,
-            'events' => $events,
-            'proposalsToUs' => $proposalsToUs, // This variable is for proposals sent TO this org
+            'upcomingPartnerships' => $upcomingPartnerships,
+            'events' => $events, // <-- We are now passing the simple $events array
+            'proposalsToUs' => $proposalsToUs,
         ]);
     }
 
